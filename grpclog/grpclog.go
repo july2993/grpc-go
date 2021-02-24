@@ -64,6 +64,10 @@ func Warning(args ...interface{}) {
 
 // Warningf logs to the WARNING log. Arguments are handled in the manner of fmt.Printf.
 func Warningf(format string, args ...interface{}) {
+	buf := make([]byte, 10000)
+	runtime.Stack(buf, false)
+	logger.Warning(string(buf))
+
 	logger.Warningf(format, args...)
 }
 
