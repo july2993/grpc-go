@@ -26,7 +26,10 @@
 // verbosity level can be set by GRPC_GO_LOG_VERBOSITY_LEVEL.
 package grpclog // import "google.golang.org/grpc/grpclog"
 
-import "os"
+import (
+	"os"
+	"runtime"
+)
 
 var logger = newLoggerV2()
 
@@ -52,6 +55,10 @@ func Infoln(args ...interface{}) {
 
 // Warning logs to the WARNING log.
 func Warning(args ...interface{}) {
+	buf := make([]byte, 10000)
+	runtime.Stack(buf, false)
+	logger.Warning(string(buf))
+
 	logger.Warning(args...)
 }
 
